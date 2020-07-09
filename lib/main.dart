@@ -2,10 +2,18 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 import 'TestPage.dart';
 import 'Question.dart';
+import 'DB.dart';
+import 'TopicChoise.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final database = DB.init();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget{
   @override
@@ -23,6 +31,7 @@ class MainWindow extends StatefulWidget{
 }
 
 class MainWindowState extends State<MainWindow>{
+  List<Question>test;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +60,7 @@ class MainWindowState extends State<MainWindow>{
             child: Text('Продолжить'),
             color: Colors.amber,
             onPressed: (){
+              print(''); //Вывод состояния radioGroup
               Navigator.push(context, MaterialPageRoute(builder: (context)=>TestPage()));
             },
           )
@@ -66,6 +76,7 @@ class RadioChoiseGroup extends StatefulWidget{
 }
 
 enum testChoise {stdTopic, ctrlTopic, ctrlSubject}
+
 
 class RadioGroupState extends State<RadioChoiseGroup>{
   testChoise _choise = testChoise.stdTopic;
