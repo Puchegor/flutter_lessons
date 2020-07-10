@@ -60,7 +60,8 @@ class MainWindowState extends State<MainWindow>{
             child: Text('Продолжить'),
             color: Colors.amber,
             onPressed: (){
-              print('Radiobutton choise $_selected'); //Вывод состояния radioGroup
+              List<Map> resultSet = DB.select('topics') as List<Map>;
+              print(resultSet);
               Navigator.push(context, MaterialPageRoute(builder: (context)=>TestPage()));
             },
           )
@@ -119,56 +120,3 @@ class RadioGroupState extends State<RadioChoiseGroup>{
     );
   }
 }
-
-//enum testChoise {stdTopic, ctrlTopic, ctrlSubject}
-
-
-/*class RadioGroupState extends State<RadioChoiseGroup>{
-  testChoise _choise = testChoise.stdTopic;
-  @override
-  Widget build(BuildContext context){
-    return Column(
-      children: <Widget>[
-        ListTile(
-          title: const Text('Обучающий тест по теме...'),
-          subtitle: const Text('Будут показываться правильные ответы и пояснения к вопросам по выбранной теме'),
-          leading: Radio(
-            value: testChoise.stdTopic,
-            groupValue: _choise,
-            onChanged: (testChoise value){
-              setState(() {
-                _choise = value;
-              });
-            },
-          ),
-        ),
-        ListTile(
-          title: const Text('Контрольный тест по теме...'),
-          subtitle: const Text('''По окончании теста по выбранной теме вам будут показаны правильные ответы и даны пояснения.'''),
-          leading: Radio(
-            value: testChoise.ctrlTopic,
-            groupValue: _choise,
-            onChanged: (testChoise value){
-              setState(() {
-                _choise = value;
-              });
-            },
-          ),
-        ),
-        ListTile(
-          title: const Text('Контрольный тест по курсу'),
-          subtitle: const Text('Вопросы случайным образом выбираются из всех тем. Есть лимит времени'),
-          leading: Radio(
-            value: testChoise.ctrlSubject,
-            groupValue: _choise,
-            onChanged: (testChoise value){
-              setState(() {
-                _choise = value;
-              });
-            },
-          ),
-        )
-      ],
-    );
-  }
-}*/
