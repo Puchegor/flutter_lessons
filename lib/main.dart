@@ -60,7 +60,7 @@ class MainWindowState extends State<MainWindow>{
             child: Text('Продолжить'),
             color: Colors.amber,
             onPressed: (){
-              print(''); //Вывод состояния radioGroup
+              print('Radiobutton choise $_selected'); //Вывод состояния radioGroup
               Navigator.push(context, MaterialPageRoute(builder: (context)=>TestPage()));
             },
           )
@@ -75,10 +75,55 @@ class RadioChoiseGroup extends StatefulWidget{
   RadioGroupState createState () => RadioGroupState();
 }
 
-enum testChoise {stdTopic, ctrlTopic, ctrlSubject}
-
+int _selected = 0;
 
 class RadioGroupState extends State<RadioChoiseGroup>{
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children:<Widget>[
+        RadioListTile(
+          value: 0,
+          groupValue: _selected,
+          title: Text('Обучающий тест по теме...'),
+          subtitle: Text('При решении теста появляются подсказки с правильными ответами'),
+          onChanged: (int value){
+            setState((){
+              _selected = value;
+            });
+          },
+        ),
+        RadioListTile(
+          value: 1,
+          groupValue: _selected,
+          title: Text('Контрольный тест по теме...'),
+          subtitle: Text('Тест только по выбранной теме. Правильные ответы можно будет посмотреть по окончании теста.'),
+          onChanged: (int value){
+            setState(() {
+              _selected = value;
+            });
+          },
+        ),
+        RadioListTile(
+          value: 2,
+          groupValue: _selected,
+          title: Text('Конотрольный тест по курсу'),
+          subtitle: Text('Вопросы выбираются случайным образом из всех тем курса. Правильные ответы можно посмотреть после окончания теста'),
+          onChanged: (int value){
+            setState(() {
+              _selected = value;
+            });
+          },
+        )
+      ]
+    );
+  }
+}
+
+//enum testChoise {stdTopic, ctrlTopic, ctrlSubject}
+
+
+/*class RadioGroupState extends State<RadioChoiseGroup>{
   testChoise _choise = testChoise.stdTopic;
   @override
   Widget build(BuildContext context){
@@ -126,4 +171,4 @@ class RadioGroupState extends State<RadioChoiseGroup>{
       ],
     );
   }
-}
+}*/
