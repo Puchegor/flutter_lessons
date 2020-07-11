@@ -15,26 +15,28 @@ abstract class DB {
   static Future<void> init() async{
     _dbDir = await getDatabasesPath();
     _dbPath = join(_dbDir, _dbName);
-    _database = await openDatabase(_dbPath);
-    if(_database != null){
-      print('Database is exists!');
+    if (await File(_dbPath).exists()) {
+      _database = await openDatabase(_dbPath);
       return;
     }
     try{
-      print('--FROM init() -- trying to copy database file into $_dbPath');
       copyDatabase(_dbPath);
+      _database = await openDatabase(_dbPath);
     } catch(ex){
       print(ex.toString());
     }
   }
 
   static copyDatabase(String path) async{
-    ByteData buffer = await rootBundle.load('assets/ectheory.db');
-    List<int> bytes = buffer.buffer.asUint8List(buffer.offsetInBytes, buffer.lengthInBytes);
+    ByteData data = await rootBundle.load('assets/ectheory.db');
+    List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     await File(path).writeAsBytes(bytes);
   }
 
-  static Future <List<Map>>select(String table, {List condition}) async{
-    Future<List<Map>> resultSet = _database.query(table, whereArgs: condition);
+  static Future <List<Map>>select(String sql) async{
+    List<Map> resultSet = await _database.rawQuery(sql);
+    /*resultSet.forEach((row) => print(row) );
+    int i = resultSet.length;
+    print('ResultSet lenfth is $i');*/
   }
 }

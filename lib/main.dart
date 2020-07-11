@@ -8,6 +8,7 @@ import 'TestPage.dart';
 import 'Question.dart';
 import 'DB.dart';
 import 'TopicChoise.dart';
+import 'Topics.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget{
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Тесты по Экономической теории',
+      theme: ThemeData(primarySwatch: Colors.amber),
       home: MainWindow(),
     );
   }
@@ -60,9 +62,8 @@ class MainWindowState extends State<MainWindow>{
             child: Text('Продолжить'),
             color: Colors.amber,
             onPressed: (){
-              List<Map> resultSet = DB.select('topics') as List<Map>;
-              print(resultSet);
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>TestPage()));
+              pressNextBtn();
+              //Navigator.push(context, MaterialPageRoute(builder: (context)=>TestPage()));
             },
           )
         ],
@@ -118,5 +119,26 @@ class RadioGroupState extends State<RadioChoiseGroup>{
         )
       ]
     );
+  }
+}
+
+void pressNextBtn() async{
+  List<Map> _resultSet;
+  switch(_selected){
+    case 0:
+      _resultSet = await DB.select('SELECT * FROM topics');
+      _resultSet.forEach((row) => print(row));
+      //List<topic> listTopics;
+      //for (int i = 0; i<_resultSet.length; i++){
+        //listTopics.add(new topic(_resultSet[i].['_id'], _resultSet[i].values as String));
+      //}
+      break;
+    case 1:
+      _resultSet = await DB.select('SELECT * FROM topics');
+      break;
+    case 2:
+      //_resultSet = await DB.select('sql')
+      break;
+    default:
   }
 }
