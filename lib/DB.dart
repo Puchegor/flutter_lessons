@@ -34,7 +34,7 @@ abstract class DB {
   }
 
   static Future <List<Map>>select(String sql) async{
-    List<Map> resultSet = await _database.rawQuery(sql);
+    return await _database.rawQuery(sql);
     /*resultSet.forEach((row) => print(row) );
     int i = resultSet.length;
     print('ResultSet lenfth is $i');*/

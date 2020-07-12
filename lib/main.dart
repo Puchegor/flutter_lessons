@@ -127,11 +127,12 @@ void pressNextBtn() async{
   switch(_selected){
     case 0:
       _resultSet = await DB.select('SELECT * FROM topics');
-      _resultSet.forEach((row) => print(row));
-      //List<topic> listTopics;
-      //for (int i = 0; i<_resultSet.length; i++){
-        //listTopics.add(new topic(_resultSet[i].['_id'], _resultSet[i].values as String));
-      //}
+      List<topic> listTopics=[];
+      //print(_resultSet.length);
+      _resultSet.forEach((element) {
+        topic top = topic(element.values.elementAt(0), element.values.elementAt(2));
+        listTopics.add(top);
+      });
       break;
     case 1:
       _resultSet = await DB.select('SELECT * FROM topics');
