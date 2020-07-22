@@ -62,7 +62,7 @@ class MainWindowState extends State<MainWindow>{
             child: Text('Продолжить'),
             color: Colors.amber,
             onPressed: (){
-              pressNextBtn();
+              pressNextBtn(context);
               //Navigator.push(context, MaterialPageRoute(builder: (context)=>TestPage()));
             },
           )
@@ -122,7 +122,7 @@ class RadioGroupState extends State<RadioChoiseGroup>{
   }
 }
 
-void pressNextBtn() async{
+void pressNextBtn(BuildContext context) async{
   List<Map> _resultSet;
   switch(_selected){
     case 0:
@@ -133,6 +133,7 @@ void pressNextBtn() async{
         topic top = topic(element.values.elementAt(0), element.values.elementAt(2));
         listTopics.add(top);
       });
+      runTopicChoise(context, listTopics);
       break;
     case 1:
       _resultSet = await DB.select('SELECT * FROM topics');
@@ -142,4 +143,8 @@ void pressNextBtn() async{
       break;
     default:
   }
+}
+
+void runTopicChoise(BuildContext context, List<topic> topics){
+  Navigator.push(context, MaterialPageRoute(builder: (context)=>TopicChoiseWindow()));
 }
