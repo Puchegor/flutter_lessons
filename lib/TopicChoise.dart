@@ -4,39 +4,39 @@ import 'DB.dart';
 import 'Topics.dart';
 
 class TopicChoiseWindow extends StatefulWidget{
+  List<topic> topics = [];
+  TopicChoiseWindow({Key key, @required this.topics}){
+    this.topics = topics;
+  }
   @override
   TopicChoiseWindowState createState()=>TopicChoiseWindowState();
 }
 
-class TopicChoiseWindowState extends State<TopicChoiseWindow>{
-  List<topic> topics;
-  List<Widget> topicsList = new List<Widget>();
+int _selected = 1;
 
-  TopicChoiseWindowState({Key key, @required this.topics});
+class TopicChoiseWindowState extends State<TopicChoiseWindow>{
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Выберите тему для тестирования'),
+        elevation: 10.0,
       ),
-      body: Padding(padding: EdgeInsets.all(20.0),
-      child: topicChoiseGroup(),)
+      body:
+       new ListView.builder(
+          itemCount: widget.topics.length,
+          itemBuilder: (bc, index){
+            return RadioListTile(title: Text('${widget.topics.elementAt(index).getTopicId()}. ${widget.topics.elementAt(index).getTopicName()}'),
+              value: widget.topics.elementAt(index).getTopicId(),
+              groupValue: _selected,
+              onChanged: (int value){
+                setState(() {
+                  _selected = value;
+                });
+              },);
+          }),
     );
   }
 }
 
-class topicChoiseGroup extends StatefulWidget{
-  @override
-  topicChoiseState createState() => topicChoiseState();
-}
-
-class topicChoiseState extends State<topicChoiseGroup>{
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-
-      ],
-    );
-  }
-}

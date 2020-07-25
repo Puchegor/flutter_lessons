@@ -61,6 +61,7 @@ class MainWindowState extends State<MainWindow>{
           MaterialButton(
             child: Text('Продолжить'),
             color: Colors.amber,
+            elevation: 10.0,
             onPressed: (){
               pressNextBtn(context);
               //Navigator.push(context, MaterialPageRoute(builder: (context)=>TestPage()));
@@ -146,5 +147,5 @@ void pressNextBtn(BuildContext context) async{
 }
 
 void runTopicChoise(BuildContext context, List<topic> topics){
-  Navigator.push(context, MaterialPageRoute(builder: (context)=>TopicChoiseWindow()));
+  Navigator.push(context, MaterialPageRoute(builder: (context)=>TopicChoiseWindow(topics: topics,)));
 }
