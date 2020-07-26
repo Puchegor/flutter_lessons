@@ -33,10 +33,7 @@ abstract class DB {
     await File(path).writeAsBytes(bytes);
   }
 
-  static Future <List<Map>>select(String sql) async{
+  static Future<List<Map>> select(String sql) async{
     return await _database.rawQuery(sql);
-    /*resultSet.forEach((row) => print(row) );
-    int i = resultSet.length;
-    print('ResultSet lenfth is $i');*/
   }
 }

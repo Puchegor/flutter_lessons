@@ -10,6 +10,22 @@ class Question{
     this._answers = answers;
     this._correctAnswer = correct;
   }
+
+  int getIdQuestion(){
+    return _idQuestion;
+  }
+
+  String getNameQuestion(){
+    return _nameQuestion;
+  }
+
+  List<Answer> getAnswers(){
+    return _answers;
+  }
+
+  String getCorrectAnswer(){
+    return _correctAnswer;
+  }
 }
 
 class Answer{
@@ -21,5 +37,17 @@ class Answer{
     this._idAnswer = id;
     this._nameAnswer = answer;
     this._isCorrect = isCorrect;
+  }
+
+  int getIdAnswer(){
+    return _idAnswer;
+  }
+
+  String getNameAnswer(){
+    return _nameAnswer;
+  }
+
+  bool getIsTrue(){
+    return _isCorrect;
   }
 }

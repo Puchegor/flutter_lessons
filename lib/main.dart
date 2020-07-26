@@ -123,21 +123,13 @@ class RadioGroupState extends State<RadioChoiseGroup>{
   }
 }
 
-void pressNextBtn(BuildContext context) async{
-  List<Map> _resultSet;
+void pressNextBtn(BuildContext context){
   switch(_selected){
     case 0:
-      _resultSet = await DB.select('SELECT * FROM topics');
-      List<topic> listTopics=[];
-      //print(_resultSet.length);
-      _resultSet.forEach((element) {
-        topic top = topic(element.values.elementAt(0), element.values.elementAt(2));
-        listTopics.add(top);
-      });
-      runTopicChoise(context, listTopics);
+      runTopicChoise(context, false);
       break;
     case 1:
-      _resultSet = await DB.select('SELECT * FROM topics');
+      runTopicChoise(context, true);
       break;
     case 2:
       //_resultSet = await DB.select('sql')
@@ -146,6 +138,13 @@ void pressNextBtn(BuildContext context) async{
   }
 }
 
-void runTopicChoise(BuildContext context, List<topic> topics){
-  Navigator.push(context, MaterialPageRoute(builder: (context)=>TopicChoiseWindow(topics: topics,)));
+void runTopicChoise(BuildContext context, bool isControl) async{
+  List<Map> _resultSet;
+  _resultSet = await DB.select('SELECT * FROM topics');
+  List<topic> listTopics=[];
+  _resultSet.forEach((element) {
+    topic top = topic(element.values.elementAt(0), element.values.elementAt(2));
+    listTopics.add(top);
+  });
+  Navigator.push(context, MaterialPageRoute(builder: (context)=>TopicChoiseWindow(topics: listTopics)));
 }
