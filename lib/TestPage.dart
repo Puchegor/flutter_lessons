@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutterlessons/Question.dart';
 
 class TestPage extends StatefulWidget{
-  //TestPage({Key key, @required this.text}) : super(key: key);
+  List<Question>test = [];
+  TestPage({Key key, @required this.test}) : super(key: key);
   @override
   TestPageState createState() => TestPageState();
 }
