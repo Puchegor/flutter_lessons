@@ -55,7 +55,7 @@ Future<List<Question>> makeTest(int idTopic) async{
   _resultSet.forEach((element) {
     idQuestionsSet.add(element.values.elementAt(0));
   });
-  print('IDs located in array: $idQuestionsSet'); //DEBUG
+  //print('IDs located in array: $idQuestionsSet'); //DEBUG
   idQuestionsSet.forEach((element) async {
     _resultSet = await DB.select('SELECT *FROM questions WHERE _id = $element');
     //print('Question: $element'); //DEBUG
