@@ -138,9 +138,9 @@ void pressNextBtn(BuildContext context){
   }
 }
 
-void runTopicChoise(BuildContext context, bool isControl) async{
+void runTopicChoise(BuildContext context, bool isControl){
   List<Map> _resultSet;
-  _resultSet = await DB.select('SELECT * FROM topics');
+  _resultSet = DB.select('SELECT * FROM topics');
   List<topic> listTopics=[];
   _resultSet.forEach((element) {
     topic top = topic(element.values.elementAt(0), element.values.elementAt(2));
