@@ -47,7 +47,6 @@ class TopicChoiseWindowState extends State<TopicChoiseWindow>{
 
 Test makeTest(int idTopic){
   Test test = new Test(idTopic);
-  print(test.getTest().toString());
   return test;
 }
 

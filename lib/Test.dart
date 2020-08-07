@@ -2,12 +2,12 @@ import 'package:flutterlessons/Question.dart';
 import 'DB.dart';
 
 class Test{
-  List<Question>_test;
-  String _topic;
+  static List<Question>_test;
+  static String _topic;
 
   Test(int idTopic){
     setTest(idTopic);
-    setTest(idTopic);
+    setTopic(idTopic);
   }
 
   List<Question>getTest(){
@@ -18,45 +18,47 @@ class Test{
     return _topic;
   }
 
-  void setTest(int idTopic){
-    List<int>_questionsIDs = _getQuestionsIDs(idTopic);  // ---------ID вопросов входящих в тему-------------------------
-    _questionsIDs.forEach((element) {
-      _getQuestions(element);
-    });
-  }
-
   void setTopic(int idTopic)async{
-    List<Map> _resultSet = await DB.select('SELECT nameTopic FROM topics WHERE _id = $idTopic');
-    _topic = _resultSet.elementAt(0).values.elementAt(0);
-  }
-  
-  List<int>_getQuestionsIDs(int idTopic){
-    List<int> _questionsIDs = [];
-    DB.select('SELECT _id FROM questions WHERE idTopic = $idTopic').forEach((element) {
-      _questionsIDs.add(element.values.elementAt(0));
-    });
+    if (idTopic != null) {
+      List<Map> _resultSet = await DB.select(
+          'SELECT nameTopic FROM topics WHERE _id = $idTopic');
+      _topic = _resultSet.elementAt(0).values.elementAt(0);
+    }else{
+      _topic = 'Контрольный тест по курсу';
+    }
   }
 
-  List<Answer>_getAnswers(int idQuestion){
-    List<Answer> answers = [];
-    DB.select('SELECT * FROM answers WHERE idQuestion = $idQuestion').forEach((element) {
-      bool isCorrect = element.values.elementAt(3) !=0 ? true : false;
-      answers.add(new Answer(element.values.elementAt(0),
-          element.values.elementAt(2), isCorrect));
-    });
-    answers.shuffle();
-    return answers;
-  }
-
-  List<Question>_getQuestions(int idQuestion){
-    List<Question>questions = [];
-    DB.select('SELECT nameQuestion, correctAnswer FROM questions WHERE _id = $idQuestion').forEach((element) {
-      String nameQuestion = element.values.elementAt(0);
-      String correctAnswer = element.values.elementAt(1);
-      List<Answer> answers = _getAnswers(idQuestion);
-      questions.add(new Question(idQuestion, nameQuestion, answers, correctAnswer));
-    });
-    questions.shuffle();
-    return questions;
+  void setTest(int idTopic) async{
+    List<Map>_resultSet;
+    if (idTopic!=null){
+      //Для тестов по теме
+      _resultSet = await DB.select('SELECT _id FROM questions WHERE idTopic = $idTopic');
+      List<int> questionsIDs=[];
+      _resultSet.forEach((id) {
+        questionsIDs.add(id.values.elementAt(0));
+      });
+      if(questionsIDs.length == null)
+        print('Вопросы к теме отсутствуют');
+      questionsIDs.forEach((id) async {
+        _resultSet = await DB.select('SELECT nameQuestion, correctAnswer FROM questions WHERE _id =$id');
+        _resultSet.forEach((quest) async {
+          int idQuestion = id;
+          String nameQuestion = quest.values.elementAt(0);
+          String correctAnswer = quest.values.elementAt(1);
+          //print('$id, $nameQuestion, $correctAnswer');
+          List<Answer>answers = [];
+          List<Map>_answerSet = await DB.select('SELECT * FROM answers WHERE idQuestion = $id');
+          _answerSet.forEach((ans) {
+            bool isCorrect = ans.values.elementAt(3) != 0 ? true : false;
+            answers.add(new Answer(ans.values.elementAt(0), ans.values.elementAt(2), isCorrect));
+            answers.shuffle();
+          });
+          Question question = new Question(idQuestion, nameQuestion, answers, correctAnswer);
+          _test.add(question);
+        });
+      });
+    }else{
+      //Для контрольного теста по курсу
+    }
   }
 }

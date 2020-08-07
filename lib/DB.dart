@@ -33,18 +33,7 @@ abstract class DB {
     await File(path).writeAsBytes(bytes);
   }
 
-  static Future<List<Map>> _sel(String sql) async{
+  static Future<List<Map>> select(String sql) async{
     return await _database.rawQuery(sql);
-  }
-
-  static List<Map> select(String sql){
-    List<Map>resultSet = [];
-    Future future = _sel(sql).then((value) => {
-      value.forEach((element) {
-        resultSet.add(element);}
-        )
-    });
-    print(resultSet);
-    return resultSet;
   }
 }
