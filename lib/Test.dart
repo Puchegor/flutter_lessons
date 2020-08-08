@@ -2,7 +2,7 @@ import 'package:flutterlessons/Question.dart';
 import 'DB.dart';
 
 class Test{
-  static List<Question>_test;
+  static List<Question>_test = [];
   static String _topic;
 
   Test(int idTopic){

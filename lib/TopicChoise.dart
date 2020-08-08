@@ -37,10 +37,25 @@ class TopicChoiseWindowState extends State<TopicChoiseWindow>{
               onChanged: (int value){
                 setState(() {
                   _selected = value;
-                  makeTest(value);
                 });
               },);
           }),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.amber,
+        elevation: 20.0,
+        shape: const CircularNotchedRectangle(),
+        child: Container(height: 50.0,),
+      ),
+      floatingActionButton: FloatingActionButton(
+        elevation: 20.0,
+        tooltip: 'Продолжить',
+        child: Icon(Icons.arrow_forward),
+        onPressed: (){
+          Test test = makeTest(_selected);
+          runTestPage(context, test);
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndDocked,
     );
   }
 }
@@ -50,6 +65,6 @@ Test makeTest(int idTopic){
   return test;
 }
 
-void runTestPage(BuildContext context, List<Question> test){
+void runTestPage(BuildContext context, Test test){
   Navigator.push(context, MaterialPageRoute(builder: (context) => TestPage(test: test),));
 }

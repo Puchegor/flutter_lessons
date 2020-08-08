@@ -58,17 +58,22 @@ class MainWindowState extends State<MainWindow>{
           Padding(padding: EdgeInsets.all(20.0),
             child: RadioChoiseGroup(),),//
           Padding(padding: EdgeInsets.all(40),),
-          MaterialButton(
-            child: Text('Продолжить'),
-            color: Colors.amber,
-            elevation: 10.0,
-            onPressed: (){
-              pressNextBtn(context);
-              //Navigator.push(context, MaterialPageRoute(builder: (context)=>TestPage()));
-            },
-          )
         ],
       ),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        color: Colors.amber,
+        elevation: 20.0,
+        child: Container(height: 50.0,),
+      ),
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Продолжить',
+        child: Icon(Icons.arrow_forward),
+        onPressed: (){
+          pressNextBtn(context);
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndDocked,
     );
   }
 }

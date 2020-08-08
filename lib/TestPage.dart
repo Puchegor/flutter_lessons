@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutterlessons/Question.dart';
+import 'package:flutterlessons/Test.dart';
 
 class TestPage extends StatefulWidget{
-  List<Question>test = [];
+  Test test;
   TestPage({Key key, @required this.test}) : super(key: key){
     this.test = test;
-    test.shuffle();
+    test.getTest().shuffle();
   }
   @override
   TestPageState createState() => TestPageState();
@@ -32,7 +33,7 @@ class Cards extends StatefulWidget{
 class CardsState extends State<Cards>{
   @override
   Widget build(BuildContext context) {
-    /*return SingleChildScrollView(
+    return SingleChildScrollView(
       child: Container(
         child: Center(
           child: Padding(
@@ -56,6 +57,6 @@ class CardsState extends State<Cards>{
           ),
         ),
       ),
-    );*/
+    );
   }
 }
