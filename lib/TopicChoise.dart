@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutterlessons/Question.dart';
-import 'package:flutterlessons/Test.dart';
 import 'package:flutterlessons/TestPage.dart';
-import 'dart:async';
 
-import 'DB.dart';
 import 'Topics.dart';
 
 class TopicChoiseWindow extends StatefulWidget{
@@ -51,8 +47,7 @@ class TopicChoiseWindowState extends State<TopicChoiseWindow>{
         tooltip: 'Продолжить',
         child: Icon(Icons.arrow_forward),
         onPressed: (){
-          Test test = makeTest(_selected);
-          runTestPage(context, test);
+          runTestPage(context, _selected);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndDocked,
@@ -60,11 +55,6 @@ class TopicChoiseWindowState extends State<TopicChoiseWindow>{
   }
 }
 
-Test makeTest(int idTopic){
-  Test test = new Test(idTopic);
-  return test;
-}
-
-void runTestPage(BuildContext context, Test test){
-  Navigator.push(context, MaterialPageRoute(builder: (context) => TestPage(test: test),));
+void runTestPage(BuildContext context, int idTopic){
+  Navigator.push(context, MaterialPageRoute(builder: (context) => TestPage(idTopic: idTopic,),));
 }

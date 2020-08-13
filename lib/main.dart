@@ -2,17 +2,21 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
-import 'TestPage.dart';
+import 'package:flutterlessons/Setup.dart';
 import 'Question.dart';
 import 'DB.dart';
 import 'TopicChoise.dart';
 import 'Topics.dart';
 
+double numberOfQuestions;
+double timer;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final database = DB.init();
+  //Setup setup = new Setup();
+  numberOfQuestions = Setup.getNumberOfQuestions();
+  timer = Setup.getTime();
   runApp(MyApp());
 }
 
@@ -60,6 +64,43 @@ class MainWindowState extends State<MainWindow>{
           Padding(padding: EdgeInsets.all(40),),
         ],
       ),
+      drawer: Drawer(child:
+          ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                child: Text('Настройки', style: TextStyle(fontSize: 20.0),),
+                decoration: BoxDecoration(
+                  color: Colors.amber
+                ),
+              ),
+              Card(
+                child: Column(
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(Icons.assignment),
+                      title: Text('Вопросов в тесте'),
+                      subtitle: Text('Количество вопросов в контрольном тесте'),
+                    ),
+                    SliderQuestionsWidget(),
+                  ],
+                )
+              ),
+              Card(
+                child: Column(
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(Icons.access_time),
+                      title: Text('Время решения:'),
+                      subtitle: Text('Время для решения контрольных тестов'),
+                    ),
+                    SliderTimeWidget(),
+                  ],
+                )
+              )
+            ],
+          )
+        ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         color: Colors.amber,
@@ -152,4 +193,56 @@ void runTopicChoise(BuildContext context, bool isControl)async{
     listTopics.add(top);
   });
   Navigator.push(context, MaterialPageRoute(builder: (context)=>TopicChoiseWindow(topics: listTopics)));
+}
+
+class SliderQuestionsWidget extends StatefulWidget{
+  @override
+  SliderQuestionsWidgetState createState()=>SliderQuestionsWidgetState();
+}
+
+class SliderQuestionsWidgetState extends State<SliderQuestionsWidget>{
+  var _value = numberOfQuestions;
+  @override
+  Widget build(BuildContext context) {
+    return Slider(
+      value: _value,
+      activeColor: Colors.amber,
+      min: 0,
+      max: 100.0,
+      divisions: 20,
+      label: '${_value.round()} вопросов',
+      onChanged: (double value){
+        setState(() {
+          _value = value;
+          Setup.setNumberOfQuestions(value);
+        });
+      },
+    );
+  }
+}
+
+class SliderTimeWidget extends StatefulWidget{
+  @override
+  SliderTimeWidgetState createState()=>SliderTimeWidgetState();
+}
+
+class SliderTimeWidgetState extends State<SliderTimeWidget>{
+  var _value = timer;
+  @override
+  Widget build(BuildContext context) {
+    return Slider(
+      value: _value,
+      activeColor: Colors.amber,
+      min: 0,
+      max: 60.0,
+      divisions: 12,
+      label: '${_value.round()} минут',
+      onChanged: (double value){
+        setState(() {
+          _value = value;
+          Setup.setTime(value);
+        });
+      },
+    );
+  }
 }

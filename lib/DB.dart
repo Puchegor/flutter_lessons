@@ -36,4 +36,12 @@ abstract class DB {
   static Future<List<Map>> select(String sql) async{
     return await _database.rawQuery(sql);
   }
+
+  static void createSetupTable()async{
+    await _database.execute('CREATE TABLE IF NOT EXISTS \'options\' (\'time\' INT, \'numberOfQuestions\')');
+  }
+
+  static void updateSetupData(String field, double data){
+    _database.execute('UPDATE \'options\' SET time = $data');
+  }
 }
