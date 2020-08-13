@@ -7,6 +7,13 @@ class Setup {
   static double _userTime;
   static double _userQuestions;
 
+  static void init(){ //проверить наличие таблицы options и данных
+    var _resultSet = DB.select('SELECT numberOfQuestions FROM options');
+    _resultSet.then((value) => _userQuestions = value.elementAt(0).values.elementAt(0));
+    _resultSet = DB.select('SELECT time FROM options');
+    _resultSet.then((value) => _userTime = value.elementAt(0).values.elementAt(0));
+  }
+
   static void setTime(double time){
     _userTime = time;
     DB.createSetupTable();
@@ -20,8 +27,6 @@ class Setup {
   }
 
   static double getNumberOfQuestions(){
-    var _resultSet = DB.select('SELECT numberOfQuestions FROM options');
-
     if (_userQuestions == null){
       return defaultQuestions;
     } else {

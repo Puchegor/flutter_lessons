@@ -14,7 +14,7 @@ double timer;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final database = DB.init();
-  //Setup setup = new Setup();
+  Setup.init();
   numberOfQuestions = Setup.getNumberOfQuestions();
   timer = Setup.getTime();
   runApp(MyApp());
@@ -214,8 +214,10 @@ class SliderQuestionsWidgetState extends State<SliderQuestionsWidget>{
       onChanged: (double value){
         setState(() {
           _value = value;
-          Setup.setNumberOfQuestions(value);
         });
+      },
+      onChangeEnd: (double value){
+        Setup.setNumberOfQuestions(value);
       },
     );
   }
@@ -240,8 +242,10 @@ class SliderTimeWidgetState extends State<SliderTimeWidget>{
       onChanged: (double value){
         setState(() {
           _value = value;
-          Setup.setTime(value);
         });
+      },
+      onChangeEnd: (double value){
+        Setup.setTime(value);
       },
     );
   }
